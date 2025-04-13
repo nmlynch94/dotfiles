@@ -202,6 +202,14 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+--  Set file type to yaml.ansible when opening a file with that type. For some reason the lsp doesn't detect it
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.yaml.ansible',
+  callback = function()
+    vim.bo.filetype = 'yaml.ansible'
+  end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -675,7 +683,9 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
-        ansiblels = {},
+        ansiblels = {
+          filetypes = { 'yaml.ansible' },
+        },
         --
         terraformls = {},
         lua_ls = {
