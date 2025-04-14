@@ -382,7 +382,11 @@ require('lazy').setup({
       end, { desc = '[S]earch [/] in Open Files' })
 
       vim.keymap.set('n', '<leader>sn', function()
-        fzf.files { cwd = vim.fn.stdpath 'config', prompt = 'Neovim Config Files>' }
+        fzf.files {
+          cwd = vim.fn.stdpath 'config',
+          prompt = 'Neovim Config Files>',
+          no_ignore = true,
+        }
       end, { desc = '[S]earch [N]eovim files' })
 
       -- LSP mappings
