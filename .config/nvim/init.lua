@@ -202,6 +202,46 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+--
+--  Set commentstring for common file types
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'sh',
+    'bash',
+    'zsh',
+    'python',
+    'lua',
+    'vim',
+    'yaml',
+    'yml',
+    'jsonc',
+    'terraform',
+    'tf',
+    'tfvars',
+    'dockerfile',
+  },
+  callback = function(args)
+    local cs_map = {
+      sh = '# %s',
+      bash = '# %s',
+      zsh = '# %s',
+      python = '# %s',
+      lua = '-- %s',
+      vim = '" %s',
+      yaml = '# %s',
+      yml = '# %s',
+      jsonc = '// %s',
+      terraform = '# %s',
+      tf = '# %s',
+      tfvars = '# %s',
+      dockerfile = '# %s',
+    }
+    local ft = vim.bo[args.buf].filetype
+    if cs_map[ft] then
+      vim.bo[args.buf].commentstring = cs_map[ft]
+    end
+  end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -388,6 +428,26 @@ require('lazy').setup({
           no_ignore = true,
         }
       end, { desc = '[S]earch [N]eovim files' })
+
+      vim.keymap.set('v', '<leader>sg', function()
+        local fzf = require 'fzf-lua'
+        -- Get the visual selection
+        local _, ls, cs = unpack(vim.fn.getpos "'<")
+        local _, le, ce = unpack(vim.fn.getpos "'>")
+        local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+
+        if #lines == 0 then
+          return
+        end
+
+        lines[1] = string.sub(lines[1], cs, -1)
+        if #lines > 1 then
+          lines[#lines] = string.sub(lines[#lines], 1, ce - 1)
+        end
+
+        local query = table.concat(lines, '\n')
+        fzf.live_grep { default_text = query }
+      end, { desc = '[S]earch [G]rep for visual selection' })
 
       -- LSP mappings
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -934,7 +994,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'hcl' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
