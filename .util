@@ -1,6 +1,8 @@
 function tp() {
   #!/usr/bin/env bash
 
+  PROJECT_ROOT="$PROJECT_ROOT:-$HOME/projects"
+
   PROJECT_ROOT="$HOME/projects"
 
   PROJECT_DIR=$(find "$PROJECT_ROOT" -mindepth 1 -maxdepth 1 -type d | fzf --prompt="Select project: ")
