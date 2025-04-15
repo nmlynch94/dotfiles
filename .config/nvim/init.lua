@@ -429,6 +429,13 @@ require('lazy').setup({
         }
       end, { desc = '[S]earch [N]eovim files' })
 
+      vim.keymap.set('n', '<leader>so', function()
+        fzf.files {
+          cwd = vim.fn.expand '$OBSIDIAN_PATH',
+          prompt = 'Obsidian notes>',
+        }
+      end, { desc = '[S]earch [O]bsidian notes' })
+
       vim.keymap.set('v', '<leader>sg', function()
         local fzf = require 'fzf-lua'
         -- Get the visual selection
