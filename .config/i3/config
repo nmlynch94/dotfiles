@@ -51,6 +51,9 @@ tiling_drag modifier titlebar
 # start a terminal
 bindsym $mod+Return exec konsole
 
+# pause media
+bindcode 172 exec playerctl play-pause
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -107,9 +110,9 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "dev"
-set $ws2 "browser"
-set $ws3 "signal"
+set $ws1 "1-dev"
+set $ws2 "2-browser"
+set $ws3 "3-signal"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -141,6 +144,9 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+
+bindsym $mod+i exec hints
+bindsym $mod+y exec hints --mode scroll
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
