@@ -254,6 +254,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Set filetype because the lsp isn't picking up the file type
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.go' },
+  callback = function(args)
+    vim.bo.filetype = 'go'
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -706,7 +714,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        -- gopls = {},
+        gopls = {},
         pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -825,6 +833,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         terraformls = { 'terraform_fmt' },
+        gopls = { 'gofmt' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
         markdownlint = {
