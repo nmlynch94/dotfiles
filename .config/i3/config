@@ -46,10 +46,13 @@ floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
+# tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec konsole
+
+# screenshot
+bindsym $mod+p exec flameshot gui 
 
 # pause media
 bindcode 172 exec playerctl play-pause
