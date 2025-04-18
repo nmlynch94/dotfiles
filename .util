@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function tp() {
-  set -x
+  set -e
   PROJECT_ROOT="${PROJECT_ROOT:-$HOME/projects}"
 
   PROJECT_DIR=$(find "$PROJECT_ROOT" -mindepth 0 -maxdepth 1 -type d | fzf --prompt="Select project: ")
@@ -24,4 +24,9 @@ function tp() {
 
   # Attach and default to the nvim window
   exec tmux attach-session -t "$SESSION_NAME"
+}
+
+function blame_file() {
+  set -e
+  git log -p -- "$(fzf)"
 }

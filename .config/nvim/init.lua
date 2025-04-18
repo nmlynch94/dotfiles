@@ -417,6 +417,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', fzf.grep_cword, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', fzf.diagnostics_workspace, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>sb', fzf.git_bcommits, { desc = '[S]earch [B]uffer history' })
       vim.keymap.set('n', '<leader>sr', fzf.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', fzf.oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
