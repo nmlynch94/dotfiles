@@ -1,4 +1,3 @@
-zmodload zsh/zprof
 export OBSIDIAN_PATH=""
 source .util
 # If you come from bash you might have to change your $PATH.
@@ -109,24 +108,6 @@ ZSH_THEME="cypher.zsh-theme"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gcof!="git checkout -f"
 source ~/.bashrc
-#export AWS_PROFILE=imatch-bamboo-lower
-#export AWS_SDK_LOAD_CONFIG=true
-
-# end set JAVA_HOMEexport PATH="/usr/local/opt/node@12/bin:$PATH"
-export PATH="/usr/local/opt/node@12/bin:$PATH"
-
-. /usr/local/opt/asdf/libexec/asdf.sh
 
 export PATH=${PATH}:`go env GOPATH`/bin
 export XDG_CONFIG_HOME="$HOME/.config"
-# Fix for colima docker 
-export PATH="/usr/local/opt/bison/bin:$PATH"
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Amazon Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-zprof
