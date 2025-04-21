@@ -66,19 +66,20 @@ local toggle_terminal = function(id, title)
     if vim.bo[state.terminals[id].buf].buftype ~= 'terminal' then
       vim.cmd.terminal()
     end
-    vim.cmd 'normal i'
+    --Start term in terminal mode so we can type right away
+    -- vim.cmd 'normal i'
   else
     vim.api.nvim_win_hide(curState.win)
   end
 end
 
 -- term 1
-vim.keymap.set({ 'n', 't' }, '<leader>tt', function()
+vim.keymap.set({ 'n' }, '<leader>tt', function()
   toggle_terminal(1, 'Terminal One (<leader>tt)')
 end)
 
 -- term 2
-vim.keymap.set({ 'n', 't' }, '<leader>tp', function()
+vim.keymap.set({ 'n' }, '<leader>tp', function()
   toggle_terminal(2, 'Terminal Two (<leader>tp)')
 end)
 
