@@ -74,12 +74,12 @@ local toggle_terminal = function(id, title)
 end
 
 -- term 1
-vim.keymap.set({ 'n' }, '<leader>tt', function()
+vim.keymap.set({ 'n', 't' }, '<leader>tt', function()
   toggle_terminal(1, 'Terminal One (<leader>tt)')
 end)
 
 -- term 2
-vim.keymap.set({ 'n' }, '<leader>tp', function()
+vim.keymap.set({ 'n', 't' }, '<leader>tp', function()
   toggle_terminal(2, 'Terminal Two (<leader>tp)')
 end)
 
