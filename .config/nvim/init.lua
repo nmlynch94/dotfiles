@@ -163,6 +163,21 @@ vim.opt.confirm = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+-- Replace <C-w>v to open a vertical split with an empty buffer
+vim.keymap.set('n', '<C-w>v', function()
+  vim.cmd 'vsplit'
+  vim.cmd 'enew' -- empty buffer
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(buf, -1, -1, false, { tostring(buf) })
+end, { noremap = true, silent = true })
+
+-- Replace <C-w>s to open a horizontal split with an empty buffer
+vim.keymap.set('n', '<C-w>s', function()
+  vim.cmd 'split'
+  vim.cmd 'enew' -- empty buffer
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(buf, -1, -1, false, { tostring(buf) })
+end, { noremap = true, silent = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
