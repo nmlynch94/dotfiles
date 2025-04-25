@@ -170,7 +170,6 @@ vim.keymap.set('n', '<C-w>v', function()
   local buf = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_set_lines(buf, -1, -1, false, { tostring(buf) })
 end, { noremap = true, silent = true })
-
 -- Replace <C-w>s to open a horizontal split with an empty buffer
 vim.keymap.set('n', '<C-w>s', function()
   vim.cmd 'split'
@@ -179,10 +178,24 @@ vim.keymap.set('n', '<C-w>s', function()
   vim.api.nvim_buf_set_lines(buf, -1, -1, false, { tostring(buf) })
 end, { noremap = true, silent = true })
 
--- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
+-- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+vim.keymap.set('n', 'dd', function()
+  local line = vim.api.nvim_get_current_line()
+  if line:match '^%s*$' then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('"_dd', true, false, true), 'n', false)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('dd', true, false, true), 'n', false)
+  end
+end, { noremap = true, silent = true })
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -435,7 +448,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', fzf.grep_cword, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', fzf.diagnostics_workspace, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>gh', fzf.git_bcommits, { desc = '[S]earch [B]uffer history' })
+      vim.keymap.set({ 'n', 'v' }, '<leader>gh', fzf.git_bcommits, { desc = '[S]earch [B]uffer history' })
       vim.keymap.set('n', '<leader>sr', fzf.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', fzf.oldfiles, { desc = '[S]earch Recent Files' })
       vim.keymap.set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
