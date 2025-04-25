@@ -438,7 +438,14 @@ require('lazy').setup({
     },
     config = function()
       local fzf = require 'fzf-lua'
-      fzf.setup { 'telescope' }
+      fzf.setup {
+        'telescope',
+        winopts = {
+          on_create = function()
+            vim.keymap.set('t', '<C-r>', [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true, buffer = true })
+          end,
+        },
+      }
 
       -- Replace Telescope keymaps with fzf-lua equivalents
       vim.keymap.set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
