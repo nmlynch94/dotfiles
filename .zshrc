@@ -107,7 +107,6 @@ ZSH_THEME="cypher.zsh-theme"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gcof!="git checkout -f"
-source ~/.bashrc
 
 export PATH=${PATH}:`go env GOPATH`/bin
 export XDG_CONFIG_HOME="$HOME/.config"
