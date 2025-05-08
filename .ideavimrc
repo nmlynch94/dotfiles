@@ -1,0 +1,32 @@
+:set relativenumber
+:set clipboard=unnamedplus
+:set number
+:set ignorecase
+let mapleader = " "
+
+" Map grr to go to references
+nnoremap grd :action GotoDeclaration<CR>
+nnoremap grr :action ShowUsages<CR>
+nnoremap gri :action GotoImplementation<CR>
+nnoremap gro :action ShowIntentionActions<CR>
+nnoremap gc :action CommentByLineComment<CR>
+vnoremap gc :action CommentByLineComment<CR>
+nnoremap <leader>ba :action BuildArtifact<CR>
+
+" Space + sf → Search files (Go to File)
+nnoremap <Space>sf :action GotoFile<CR>
+" Space + sg → Search text (Find in Files)
+nnoremap <Space>sg :action FindInPath<CR>
+nmap <, :action MoveElementLeft<CR>
+nmap >, :action MoveElementRight<CR>
+
+" edit ideavim config
+nnoremap <leader>vv :e ~/.ideavimrc<CR>
+nnoremap <leader>vr :source ~/.ideavimrc<CR>
+
+inoremap <c-j> <down>
+inoremap <c-k <up>
+
+nnoremap \ :action ActivateProjectToolWindow<CR>
+nnoremap <leader><leader> :action RecentFiles<CR>
+nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
