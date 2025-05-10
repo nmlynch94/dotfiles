@@ -12,7 +12,10 @@ nnoremap gro :action ShowIntentionActions<CR>
 nnoremap gc :action CommentByLineComment<CR>
 vnoremap gc :action CommentByLineComment<CR>
 nnoremap <leader>ba :action BuildArtifact<CR>
+nmap grn :action RenameElement<CR>
 
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-d>zz
 " Space + sf → Search files (Go to File)
 nnoremap <Space>sf :action GotoFile<CR>
 " Space + sg → Search text (Find in Files)

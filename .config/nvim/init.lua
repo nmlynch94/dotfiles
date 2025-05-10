@@ -476,6 +476,14 @@ require('lazy').setup({
         }
       end, { desc = '[S]earch [N]eovim files' })
 
+      vim.keymap.set('n', '<leader>sr', function()
+        fzf.files {
+          cwd = vim.fn.expand '~' .. '/Dropbox/org',
+          prompt = 'Neovim Org Files>',
+          no_ignore = true,
+        }
+      end, { desc = '[S]earch o[R]g files' })
+
       vim.keymap.set('n', '<leader>so', function()
         fzf.files {
           cwd = vim.fn.expand '$OBSIDIAN_PATH',
@@ -566,6 +574,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', opts = {} },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'nvim-java/nvim-java',
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
@@ -763,6 +772,7 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         markdown_oxide = {},
+        java_language_server = {},
         --
 
         terraformls = {},
@@ -812,6 +822,11 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+          end,
+          jdtls = function()
+            require('java').setup {}
+
+            require('lspconfig').jdtls.setup {}
           end,
         },
       }
@@ -1053,7 +1068,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'hcl' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'hcl', 'java' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
