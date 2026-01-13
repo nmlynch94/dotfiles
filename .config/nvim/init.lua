@@ -19,6 +19,7 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/jake-stewart/multicursor.nvim" },
+	{ src = "https://github.com/mfussenegger/nvim-lint" },
 	{ src = "https://github.com/mason-org/mason.nvim" }
 })
 
@@ -81,8 +82,19 @@ vim.lsp.config('luals', {
 vim.lsp.enable({ "lua_ls", "bashls", "basedpyright", "clangd" })
 
 --
--- lsp and conform formatting
+-- lsp, linting, and conform formatting
 --
+
+require('lint').linters_by_ft = {
+		sh = {'shellcheck'},
+		python = {'ruff'}
+}
+
+vim.api.nvim_create_autocmd({"BufWritePost"}, {
+		callback = function() 
+				require("lint").try_lint()
+		end
+})
 
 set('n', '<leader>f', function()
 	require("conform").format({ lsp_format = "fallback", async = true, timeout_ms = 2000 },
