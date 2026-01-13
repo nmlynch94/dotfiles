@@ -18,8 +18,11 @@ vim.pack.add({
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
-	{ src = "https://github.com/jake-stewart/multicursor.nvim" }
+	{ src = "https://github.com/jake-stewart/multicursor.nvim" },
+	{ src = "https://github.com/mason-org/mason.nvim" }
 })
+
+require "mason".setup()
 
 vim.cmd("colorscheme vague")
 vim.cmd("set completeopt+=menuone,noselect,popup")
