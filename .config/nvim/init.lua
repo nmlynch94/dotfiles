@@ -13,14 +13,18 @@ local set = vim.keymap.set
 set('n', '<leader>o', ':update<CR> :source<CR>')
 
 vim.pack.add({
-	{ src = "https://github.com/vague2k/vague.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/folke/which-key.nvim" },
-	{ src = "https://github.com/jake-stewart/multicursor.nvim" },
-	{ src = "https://github.com/mfussenegger/nvim-lint" },
-	{ src = "https://github.com/mason-org/mason.nvim" }
+	{ src = vim.fn.stdpath("config") .. "/plugins/vague.nvim" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/nvim-lspconfig" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/fzf-lua" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/conform.nvim" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/which-key.nvim" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/multicursor.nvim" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/nvim-lint" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/mason.nvim" },
+
+	-- Dependencies
+	{ src = vim.fn.stdpath("config") .. "/plugins/plenary.nvim" },
+	{ src = vim.fn.stdpath("config") .. "/plugins/harpoon" }
 })
 
 require "mason".setup()
@@ -29,10 +33,28 @@ vim.cmd("colorscheme vague")
 vim.cmd("set completeopt+=menuone,noselect,popup")
 vim.cmd(":hi statusline guibg=NONE")
 
+-- 
+-- Harpoon
+--
+local harpoon = require("harpoon")
+
+harpoon:setup()
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, {desc = "Harpoon file"}	)
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, {desc = "Harpoon quick menu"}	)
+vim.keymap.set("n", "<leader>aj", function() harpoon:list():select(1) end, {desc = "Jump to file 1"}	)
+vim.keymap.set("n", "<leader>ak", function() harpoon:list():select(2) end, {desc = "Jump to file 2"}	)
+vim.keymap.set("n", "<leader>al", function() harpoon:list():select(3) end, {desc = "Jump to file 3"}	)
+vim.keymap.set("n", "<leader>a;", function() harpoon:list():select(4) end, {desc = "Jump to file 4"}	)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end, {desc = "Go to next file"}	)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end, {desc = "Go to previous buffer"}	)
+
 --
 -- fzf lua
 --
---
+
 local fzf = require "fzf-lua"
 fzf.setup({ 'telescope' })
 
