@@ -1,75 +1,106 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = 'yes'
 vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.tabstop = 4
 vim.opt.clipboard = 'unnamedplus'
-vim.g.mapleader = " "
-vim.opt.winborder = "rounded"
+vim.g.mapleader = ' '
+vim.opt.winborder = 'rounded'
 
 local set = vim.keymap.set
 
 set('n', '<leader>o', ':update<CR> :source<CR>')
 
-vim.pack.add({
-	{ src = vim.fn.stdpath("config") .. "/plugins/vague.nvim" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/nvim-lspconfig" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/fzf-lua" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/conform.nvim" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/which-key.nvim" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/multicursor.nvim" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/nvim-lint" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/mason.nvim" },
+vim.pack.add {
+  { src = vim.fn.stdpath 'config' .. '/plugins/tokyonight.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/nvim-lspconfig' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/fzf-lua' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/conform.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/which-key.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/multicursor.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/nvim-lint' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/mason.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/oil.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/nvim-autopairs' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/LuaSnip' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/friendly-snippets' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/nvim-autopairs' },
 
-	-- Dependencies
-	{ src = vim.fn.stdpath("config") .. "/plugins/plenary.nvim" },
-	{ src = vim.fn.stdpath("config") .. "/plugins/harpoon" }
-})
+  -- Dependencies
+  { src = vim.fn.stdpath 'config' .. '/plugins/plenary.nvim' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/harpoon' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/blink.cmp.git', version = vim.version.range '*' },
+}
 
-require "mason".setup()
+require('luasnip.loaders.from_vscode').lazy_load()
+require('blink.cmp').setup()
 
-vim.cmd("colorscheme vague")
-vim.cmd("set completeopt+=menuone,noselect,popup")
-vim.cmd(":hi statusline guibg=NONE")
+require('nvim-autopairs').setup()
 
--- 
+require('mason').setup()
+
+require('tokyonight').setup()
+vim.cmd 'colorscheme tokyonight-night'
+-- vim.cmd ':hi statusline guibg=NONE'
+
+require('oil').setup {
+  default_file_explorer = true,
+}
+
+--
 -- Harpoon
 --
-local harpoon = require("harpoon")
+local harpoon = require 'harpoon'
 
 harpoon:setup()
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, {desc = "Harpoon file"}	)
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, {desc = "Harpoon quick menu"}	)
-vim.keymap.set("n", "<leader>aj", function() harpoon:list():select(1) end, {desc = "Jump to file 1"}	)
-vim.keymap.set("n", "<leader>ak", function() harpoon:list():select(2) end, {desc = "Jump to file 2"}	)
-vim.keymap.set("n", "<leader>al", function() harpoon:list():select(3) end, {desc = "Jump to file 3"}	)
-vim.keymap.set("n", "<leader>a;", function() harpoon:list():select(4) end, {desc = "Jump to file 4"}	)
+vim.keymap.set('n', '<leader>a', function()
+  harpoon:list():add()
+end, { desc = 'Harpoon file' })
+vim.keymap.set('n', '<C-e>', function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { desc = 'Harpoon quick menu' })
+vim.keymap.set('n', '<leader>aj', function()
+  harpoon:list():select(1)
+end, { desc = 'Jump to file 1' })
+vim.keymap.set('n', '<leader>ak', function()
+  harpoon:list():select(2)
+end, { desc = 'Jump to file 2' })
+vim.keymap.set('n', '<leader>al', function()
+  harpoon:list():select(3)
+end, { desc = 'Jump to file 3' })
+vim.keymap.set('n', '<leader>a;', function()
+  harpoon:list():select(4)
+end, { desc = 'Jump to file 4' })
 
 -- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end, {desc = "Go to next file"}	)
-vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end, {desc = "Go to previous buffer"}	)
+vim.keymap.set('n', '<C-S-P>', function()
+  harpoon:list():prev()
+end, { desc = 'Go to next file' })
+vim.keymap.set('n', '<C-S-N>', function()
+  harpoon:list():next()
+end, { desc = 'Go to previous buffer' })
 
 --
 -- fzf lua
 --
 
-local fzf = require "fzf-lua"
-fzf.setup({ 'telescope' })
+local fzf = require 'fzf-lua'
+fzf.setup { 'telescope' }
 
 set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
-set('n', '<leader>st', function ()
-		require("fzf-lua").grep({
-		  prompt = "HELP> ",
-		  search = "",
-		  cwd = vim.env.VIMRUNTIME .. "/doc",
-		  rg_opts = "--column --line-number --no-heading --color=always --smart-case",
-		})
+set('n', '<leader>st', function()
+  require('fzf-lua').grep {
+    prompt = 'HELP> ',
+    search = '',
+    cwd = vim.env.VIMRUNTIME .. '/doc',
+    rg_opts = '--column --line-number --no-heading --color=always --smart-case',
+  }
 end, { desc = '[S]earch [T]ext of [H]elp' })
 set('n', '<leader>sk', fzf.keymaps, { desc = '[S]earch [K]eymaps' })
 set('n', '<leader>sf', fzf.files, { desc = '[S]earch [F]iles' })
-set('n', '<leader>ss', fzf.builtin, { desc = '[S]earch [S]elect fzf-lua builtin' })
+set('n', '<leader>ss', fzf.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
 set('n', '<leader>sw', fzf.grep_cword, { desc = '[S]earch current [W]ord' })
 set('n', '<leader>sg', fzf.live_grep, { desc = '[S]earch by [G]rep' })
 set('n', '<leader>sd', fzf.diagnostics_workspace, { desc = '[S]earch [D]iagnostics' })
@@ -78,123 +109,116 @@ set('n', '<leader>sr', fzf.resume, { desc = '[S]earch [R]esume' })
 set('n', '<leader>s.', fzf.oldfiles, { desc = '[S]earch Recent Files' })
 set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
 set('n', '<leader>sn', function()
-	fzf.files {
-		cwd = vim.fn.stdpath 'config',
-		prompt = 'Neovim Config Files>',
-		no_ignore = true,
-	}
+  fzf.files {
+    cwd = vim.fn.stdpath 'config',
+    prompt = 'Neovim Config Files>',
+    no_ignore = true,
+  }
 end, { desc = '[S]earch [N]eovim files' })
-
-lsp_configs = {}
 
 -- Defined in init.lua
 vim.lsp.config('clangd', {
-		filetypes = { 'c' }
+  filetypes = { 'c' },
 })
 vim.lsp.config('bashls', {
-		filetypes = { 'sh' }
+  filetypes = { 'sh' },
 })
-vim.lsp.config('basedpyright', {
-		filetypes = { 'python' }
+vim.lsp.config('pylsp', {
+  filetypes = { 'python' },
+  plugins = {
+    pyflakes = { enabled = false },
+    pycodestyle = { enabled = false },
+    autopep8 = { enabled = false },
+    yapf = { enabled = false },
+    mccabe = { enabled = false },
+    pylsp_mypy = { enabled = false },
+    pylsp_black = { enabled = false },
+    pylsp_isort = { enabled = false },
+  },
 })
 vim.lsp.config('luals', {
-		filetypes = { 'lua' }
+  filetypes = { 'lua' },
 })
 
-vim.lsp.enable({ "lua_ls", "bashls", "basedpyright", "clangd" })
+vim.lsp.enable { 'lua_ls', 'bashls', 'pylsp', 'clangd' }
 
 --
 -- lsp, linting, and conform formatting
 --
 
 require('lint').linters_by_ft = {
-		sh = {'shellcheck'},
-		python = {'ruff'}
+  sh = { 'shellcheck' },
+  python = { 'ruff' },
 }
 
-vim.api.nvim_create_autocmd({"BufWritePost"}, {
-		callback = function() 
-				require("lint").try_lint()
-		end
-})
-
-set('n', '<leader>f', function()
-	require("conform").format({ lsp_format = "fallback", async = true, timeout_ms = 2000 },
-		function(err, did_edit) end)
-end)
-require("conform").setup({
-	formatters_by_ft = {
-		lua = { "stylua", lsp_format = "fallback" },
-		-- Conform will run multiple formatters sequentially
-		python = { "isort", "black" }
-	},
-})
-
-vim.api.nvim_create_autocmd('LspAttach', {
-	-- callback = function(ev)
-	-- 	local client = vim.lsp.get_client_by_id(ev.data.client_id)
-	-- 	if client:supports_method('textDocument/completion') then
-	-- 		vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-	-- 	end
-	-- end
-	group = vim.api.nvim_create_augroup('kickstart-lsp-fzf', { clear = true }),
-	callback = function(event)
-        vim.lsp.completion.enable(true, event.data.client_id, bufnr, {
-          autotrigger = true,
-          convert = function(item)
-            return { abbr = item.label:gsub('%b()', '') }
-          end,
-        })
-		-- Define a helper function for keybindings with descriptions
-		local map = function(keys, func, desc, mode)
-			mode = mode or 'n'
-			set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-		end
-
-		-- Rename the symbol under the cursor
-		map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-		-- Trigger a code action
-		map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-
-		-- Find references to the symbol under the cursor
-		map('grr', fzf.lsp_references, '[G]oto [R]eferences')
-
-		-- Jump to the implementation of the symbol
-		map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
-
-		-- Jump to the definition of the symbol
-		map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
-
-		-- Jump to the declaration (e.g., header files in C)
-		map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-		-- List document symbols in the current buffer
-		map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
-
-		-- List symbols across the entire workspace
-		map('gW', fzf.lsp_workspace_symbols, 'Open Workspace Symbols')
-
-		-- Jump to the type definition of the symbol
-		map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
-	end
-})
-
-vim.opt.updatetime = 250  -- faster CursorHold
-
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = vim.api.nvim_create_augroup("diag-float", { clear = true }),
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   callback = function()
-    vim.diagnostic.open_float(nil, {
-      focus = false,
-      scope = "cursor", -- "line" also ok
-      border = "rounded",
-      source = "if_many",
-    })
+    require('lint').try_lint()
   end,
 })
 
+set('n', '<leader>f', function()
+  require('conform').format({ lsp_format = 'fallback', async = true, timeout_ms = 2000 }, function(err, did_edit) end)
+end)
+require('conform').setup {
+  formatters_by_ft = {
+    lua = { 'stylua', lsp_format = 'fallback' },
+    -- Conform will run multiple formatters sequentially
+    python = { 'isort', 'black' },
+  },
+}
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('kickstart-lsp-fzf', { clear = true }),
+  callback = function(event)
+    -- Define a helper function for keybindings with descriptions
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+    end
+
+    -- Rename the symbol under the cursor
+    map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+
+    -- Trigger a code action
+    map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+
+    -- Find references to the symbol under the cursor
+    map('grr', fzf.lsp_references, '[G]oto [R]eferences')
+
+    -- Jump to the implementation of the symbol
+    map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
+
+    -- Jump to the definition of the symbol
+    map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
+
+    -- Jump to the declaration (e.g., header files in C)
+    map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+    -- List document symbols in the current buffer
+    map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
+
+    -- List symbols across the entire workspace
+    map('gW', fzf.lsp_workspace_symbols, 'Open Workspace Symbols')
+
+    -- Jump to the type definition of the symbol
+    map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
+  end,
+})
+
+vim.opt.updatetime = 250 -- faster CursorHold
+
+vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+  group = vim.api.nvim_create_augroup('diag-float', { clear = true }),
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focus = false,
+      scope = 'cursor', -- "line" also ok
+      border = 'rounded',
+      source = 'if_many',
+    })
+  end,
+})
 
 -- QOL
 set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -219,73 +243,88 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 set('n', 'dd', function()
-	local line = vim.api.nvim_get_current_line()
-	if line:match '^%s*$' then
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('"_dd', true, false, true), 'n', false)
-	else
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('dd', true, false, true), 'n', false)
-	end
+  local line = vim.api.nvim_get_current_line()
+  if line:match '^%s*$' then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('"_dd', true, false, true), 'n', false)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('dd', true, false, true), 'n', false)
+  end
 end, { noremap = true, silent = true })
 
 --
 -- multicursor
 --
-local mc = require("multicursor-nvim")
+local mc = require 'multicursor-nvim'
 mc.setup()
 
 -- Add or skip cursor above/below the main cursor.
-set({ "n", "x" }, "<up>", function() mc.lineAddCursor(-1) end)
-set({ "n", "x" }, "<down>", function() mc.lineAddCursor(1) end)
-set({ "n", "x" }, "<leader><up>", function() mc.lineSkipCursor(-1) end)
-set({ "n", "x" }, "<leader><down>", function() mc.lineSkipCursor(1) end)
+set({ 'n', 'x' }, '<up>', function()
+  mc.lineAddCursor(-1)
+end)
+set({ 'n', 'x' }, '<down>', function()
+  mc.lineAddCursor(1)
+end)
+set({ 'n', 'x' }, '<leader><up>', function()
+  mc.lineSkipCursor(-1)
+end)
+set({ 'n', 'x' }, '<leader><down>', function()
+  mc.lineSkipCursor(1)
+end)
 
 -- Add or skip adding a new cursor by matching word/selection
-set({ "n", "x" }, "<leader>n", function() mc.matchAddCursor(1) end, { desc = 'Open diagnostic [Q]uickfix list' })
-set({ "n", "x" }, "<leader>s", function() mc.matchSkipCursor(1) end)
-set({ "n", "x" }, "<leader>N", function() mc.matchAddCursor(-1) end)
-set({ "n", "x" }, "<leader>S", function() mc.matchSkipCursor(-1) end)
+set({ 'n', 'x' }, '<leader>n', function()
+  mc.matchAddCursor(1)
+end, { desc = 'Open diagnostic [Q]uickfix list' })
+set({ 'n', 'x' }, '<leader>s', function()
+  mc.matchSkipCursor(1)
+end)
+set({ 'n', 'x' }, '<leader>N', function()
+  mc.matchAddCursor(-1)
+end)
+set({ 'n', 'x' }, '<leader>S', function()
+  mc.matchSkipCursor(-1)
+end)
 
 -- Add and remove cursors with control + left click.
-set("n", "<c-leftmouse>", mc.handleMouse)
-set("n", "<c-leftdrag>", mc.handleMouseDrag)
-set("n", "<c-leftrelease>", mc.handleMouseRelease)
+set('n', '<c-leftmouse>', mc.handleMouse)
+set('n', '<c-leftdrag>', mc.handleMouseDrag)
+set('n', '<c-leftrelease>', mc.handleMouseRelease)
 
 -- Disable and enable cursors.
-set({ "n", "x" }, "<c-q>", mc.toggleCursor)
+set({ 'n', 'x' }, '<c-q>', mc.toggleCursor)
 
 -- Add a cursor for all matches of cursor word/selection in the document.
-set({ "n", "x" }, "<leader>A", mc.matchAllAddCursors)
+set({ 'n', 'x' }, '<leader>A', mc.matchAllAddCursors)
 
 -- Add a cursor to every search result in the buffer.
-set("n", "<leader>/A", mc.searchAllAddCursors)
+set('n', '<leader>/A', mc.searchAllAddCursors)
 
 -- Mappings defined in a keymap layer only apply when there are
 -- multiple cursors. This lets you have overlapping mappings.
 mc.addKeymapLayer(function(layerSet)
-	-- Select a different cursor as the main one.
-	layerSet({ "n", "x" }, "<left>", mc.prevCursor)
-	layerSet({ "n", "x" }, "<right>", mc.nextCursor)
+  -- Select a different cursor as the main one.
+  layerSet({ 'n', 'x' }, '<left>', mc.prevCursor)
+  layerSet({ 'n', 'x' }, '<right>', mc.nextCursor)
 
-	-- Delete the main cursor.
-	layerSet({ "n", "x" }, "<leader>x", mc.deleteCursor)
+  -- Delete the main cursor.
+  layerSet({ 'n', 'x' }, '<leader>x', mc.deleteCursor)
 
-	-- Enable and clear cursors using escape.
-	layerSet("n", "<esc>", function()
-		if not mc.cursorsEnabled() then
-			mc.enableCursors()
-		else
-			mc.clearCursors()
-		end
-	end)
+  -- Enable and clear cursors using escape.
+  layerSet('n', '<esc>', function()
+    if not mc.cursorsEnabled() then
+      mc.enableCursors()
+    else
+      mc.clearCursors()
+    end
+  end)
 end)
 
 -- Customize how cursors look.
 local hl = vim.api.nvim_set_hl
-hl(0, "MultiCursorCursor", { reverse = true })
-hl(0, "MultiCursorVisual", { link = "Visual" })
-hl(0, "MultiCursorSign", { link = "SignColumn" })
-hl(0, "MultiCursorMatchPreview", { link = "Search" })
-hl(0, "MultiCursorDisabledCursor", { reverse = true })
-hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
-hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
-
+hl(0, 'MultiCursorCursor', { reverse = true })
+hl(0, 'MultiCursorVisual', { link = 'Visual' })
+hl(0, 'MultiCursorSign', { link = 'SignColumn' })
+hl(0, 'MultiCursorMatchPreview', { link = 'Search' })
+hl(0, 'MultiCursorDisabledCursor', { reverse = true })
+hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
+hl(0, 'MultiCursorDisabledSign', { link = 'SignColumn' })
