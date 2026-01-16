@@ -30,7 +30,7 @@ vim.pack.add {
   -- Dependencies
   { src = vim.fn.stdpath 'config' .. '/plugins/plenary.nvim' },
   { src = vim.fn.stdpath 'config' .. '/plugins/harpoon' },
-  { src = vim.fn.stdpath 'config' .. '/plugins/blink.cmp.git', version = vim.version.range '*' },
+  { src = vim.fn.stdpath 'config' .. '/plugins/blink.cmp', version = vim.version.range '*' },
 }
 
 require('luasnip.loaders.from_vscode').lazy_load()
