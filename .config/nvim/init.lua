@@ -61,16 +61,16 @@ end, { desc = 'Harpoon file' })
 vim.keymap.set('n', '<C-e>', function()
   harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = 'Harpoon quick menu' })
-vim.keymap.set('n', '<leader>aj', function()
+vim.keymap.set('n', 'mf', function()
   harpoon:list():select(1)
 end, { desc = 'Jump to file 1' })
-vim.keymap.set('n', '<leader>ak', function()
+vim.keymap.set('n', 'md', function()
   harpoon:list():select(2)
 end, { desc = 'Jump to file 2' })
-vim.keymap.set('n', '<leader>al', function()
+vim.keymap.set('n', 'ms', function()
   harpoon:list():select(3)
 end, { desc = 'Jump to file 3' })
-vim.keymap.set('n', '<leader>a;', function()
+vim.keymap.set('n', 'ma', function()
   harpoon:list():select(4)
 end, { desc = 'Jump to file 4' })
 
@@ -118,7 +118,7 @@ end, { desc = '[S]earch [N]eovim files' })
 
 -- Defined in init.lua
 vim.lsp.config('clangd', {
-  filetypes = { 'c' },
+  filetypes = { 'c', 'cpp' },
 })
 vim.lsp.config('bashls', {
   filetypes = { 'sh' },
