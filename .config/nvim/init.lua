@@ -7,12 +7,13 @@ vim.opt.tabstop = 4
 vim.opt.clipboard = 'unnamedplus'
 vim.g.mapleader = ' '
 vim.opt.winborder = 'rounded'
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 
 local set = vim.keymap.set
 
 set('n', '<leader>o', ':update<CR> :source<CR>')
 
-packages_added = true
 vim.pack.add {
 	{ src = 'https://github.com/folke/tokyonight.nvim' },
 	{ src = 'https://github.com/neovim/nvim-lspconfig' },
@@ -27,6 +28,9 @@ vim.pack.add {
 	{ src = 'https://github.com/windwp/nvim-autopairs' },
 	{ src = 'https://github.com/L3MON4D3/LuaSnip' },
 	{ src = 'https://github.com/rafamadriz/friendly-snippets' },
+	{ src = 'https://github.com/NeogitOrg/neogit' },
+	{ src = 'https://github.com/sindrets/diffview.nvim' },
+	{ src = 'https://github.com/lewis6991/gitsigns.nvim' },
 
 	-- Dependencies
 	{ src = 'https://github.com/nvim-lua/plenary.nvim' },
@@ -388,3 +392,81 @@ hl(0, 'MultiCursorMatchPreview', { link = 'Search' })
 hl(0, 'MultiCursorDisabledCursor', { reverse = true })
 hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
 hl(0, 'MultiCursorDisabledSign', { link = 'SignColumn' })
+
+-- Neogit config
+local neogit = require('neogit')
+set("n", "<leader>gg", neogit.open, { desc = "Open neogit UI" })
+
+neogit.setup({
+	integrations = {
+		diffview = true,
+		fzf_lua = true
+	}
+})
+
+-- Gitsigns
+require('gitsigns').setup {
+	on_attach = function(bufnr)
+		local gitsigns = require('gitsigns')
+
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+
+		-- Navigation
+		map('n', ']c', function()
+			if vim.wo.diff then
+				vim.cmd.normal({ ']c', bang = true })
+			else
+				gitsigns.nav_hunk('next')
+			end
+		end)
+
+		map('n', '[c', function()
+			if vim.wo.diff then
+				vim.cmd.normal({ '[c', bang = true })
+			else
+				gitsigns.nav_hunk('prev')
+			end
+		end)
+
+		-- Actions
+		map('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
+		map('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
+
+		map('v', '<leader>gs', function()
+			gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+		end, { desc = "Stage Hunk" })
+
+		map('v', '<leader>gr', function()
+			gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+		end, { desc = "Reset Hunk" })
+
+		map('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
+		map('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
+		map('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
+		map('n', '<leader>gi', gitsigns.preview_hunk_inline, { desc = "Preview Hunk Inline" })
+
+		map('n', '<leader>gb', function()
+			gitsigns.blame_line({ full = true })
+		end, { desc = "Blame Line" })
+
+		map('n', '<leader>gd', gitsigns.diffthis, { desc = "Diff This" })
+
+		map('n', '<leader>gD', function()
+			gitsigns.diffthis('~')
+		end, { desc = "Diff This" })
+
+		map('n', '<leader>gQ', function() gitsigns.setqflist('all') end, { desc = "Set QuickFix List" })
+		map('n', '<leader>gq', gitsigns.setqflist)
+
+		-- Toggles
+		map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
+		map('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = "Toggle Word Diff" })
+
+		-- Text object
+		map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = "Select Hunk" })
+	end
+}
