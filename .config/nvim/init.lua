@@ -9,126 +9,36 @@ vim.g.mapleader = ' '
 vim.opt.winborder = 'rounded'
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.undofile = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 local set = vim.keymap.set
 
 set('n', '<leader>o', ':update<CR> :source<CR>')
 
 vim.pack.add {
-	{ src = 'https://github.com/folke/tokyonight.nvim' },
-	{ src = 'https://github.com/neovim/nvim-lspconfig' },
-	{ src = 'https://github.com/ibhagwan/fzf-lua' },
-	{ src = 'https://github.com/stevearc/conform.nvim' },
-	{ src = 'https://github.com/folke/which-key.nvim' },
-	{ src = 'https://github.com/jake-stewart/multicursor.nvim' },
-	{ src = 'https://github.com/mfussenegger/nvim-lint' },
-	{ src = 'https://github.com/mason-org/mason.nvim' },
-	{ src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim' },
-	{ src = 'https://github.com/stevearc/oil.nvim' },
-	{ src = 'https://github.com/windwp/nvim-autopairs' },
-	{ src = 'https://github.com/L3MON4D3/LuaSnip' },
-	{ src = 'https://github.com/rafamadriz/friendly-snippets' },
-	{ src = 'https://github.com/NeogitOrg/neogit' },
-	{ src = 'https://github.com/sindrets/diffview.nvim' },
-	{ src = 'https://github.com/lewis6991/gitsigns.nvim' },
+  { src = 'https://github.com/folke/tokyonight.nvim' },
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
+  { src = 'https://github.com/ibhagwan/fzf-lua' },
+  { src = 'https://github.com/stevearc/conform.nvim' },
+  { src = 'https://github.com/folke/which-key.nvim' },
+  { src = 'https://github.com/jake-stewart/multicursor.nvim' },
+  { src = 'https://github.com/mfussenegger/nvim-lint' },
+  { src = 'https://github.com/mason-org/mason.nvim' },
+  { src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim' },
+  { src = 'https://github.com/stevearc/oil.nvim' },
+  { src = 'https://github.com/windwp/nvim-autopairs' },
+  { src = 'https://github.com/L3MON4D3/LuaSnip' },
+  { src = 'https://github.com/rafamadriz/friendly-snippets' },
+  { src = 'https://github.com/NeogitOrg/neogit' },
+  { src = 'https://github.com/sindrets/diffview.nvim' },
+  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
 
-	-- Dependencies
-	{ src = 'https://github.com/nvim-lua/plenary.nvim' },
-	{ src = 'https://github.com/ThePrimeagen/harpoon' },
-	{ src = 'https://github.com/saghen/blink.cmp',                         version = vim.version.range '*' }
-
-	-- {
-	--   "plugins": {
-	--     "LuaSnip": {
-	--       "rev": "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
-	--       "src": "https://github.com/L3MON4D3/LuaSnip"
-	--     },
-	--     "blink.cmp": {
-	--       "rev": "b19413d214068f316c78978b08264ed1c41830ec",
-	--       "src": "https://github.com/saghen/blink.cmp",
-	--       "version": ">=0.0.0"
-	--     },
-	--     "conform.nvim": {
-	--       "rev": "238f542a118984a88124fc915d5b981680418707",
-	--       "src": "https://github.com/stevearc/conform.nvim",
-	--       "version": "'238f542a118984a88124fc915d5b981680418707'"
-	--     },
-	--     "diffview.nvim": {
-	--       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
-	--       "src": "https://github.com/sindrets/diffview.nvim"
-	--     },
-	--     "friendly-snippets": {
-	--       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
-	--       "src": "https://github.com/rafamadriz/friendly-snippets"
-	--     },
-	--     "fzf-lua": {
-	--       "rev": "578a11f9f7c5f4436b833731ccceeda9479562f0",
-	--       "src": "https://github.com/ibhagwan/fzf-lua",
-	--       "version": "'578a11f9f7c5f4436b833731ccceeda9479562f0'"
-	--     },
-	--     "gitsigns.nvim": {
-	--       "rev": "abf82a65f185bd54adc0679f74b7d6e1ada690c9",
-	--       "src": "https://github.com/lewis6991/gitsigns.nvim"
-	--     },
-	--     "harpoon": {
-	--       "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
-	--       "src": "https://github.com/ThePrimeagen/harpoon",
-	--       "version": "'87b1a3506211538f460786c23f98ec63ad9af4e5'"
-	--     },
-	--     "mason-tool-installer.nvim": {
-	--       "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
-	--       "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
-	--     },
-	--     "mason.nvim": {
-	--       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
-	--       "src": "https://github.com/mason-org/mason.nvim",
-	--       "version": "'44d1e90e1f66e077268191e3ee9d2ac97cc18e65'"
-	--     },
-	--     "multicursor.nvim": {
-	--       "rev": "c982cc8375f062e9f98e96a408e0f7ad0c80d4db",
-	--       "src": "https://github.com/jake-stewart/multicursor.nvim",
-	--       "version": "'c982cc8375f062e9f98e96a408e0f7ad0c80d4db'"
-	--     },
-	--     "neogit": {
-	--       "rev": "73870229977fdd8747025820e15e98cfde787b9c",
-	--       "src": "https://github.com/NeogitOrg/neogit"
-	--     },
-	--     "nvim-autopairs": {
-	--       "rev": "c2a0dd0d931d0fb07665e1fedb1ea688da3b80b4",
-	--       "src": "https://github.com/windwp/nvim-autopairs",
-	--       "version": "'c2a0dd0d931d0fb07665e1fedb1ea688da3b80b4'"
-	--     },
-	--     "nvim-lint": {
-	--       "rev": "ca6ea12daf0a4d92dc24c5c9ae22a1f0418ade37",
-	--       "src": "https://github.com/mfussenegger/nvim-lint",
-	--       "version": "'ca6ea12daf0a4d92dc24c5c9ae22a1f0418ade37'"
-	--     },
-	--     "nvim-lspconfig": {
-	--       "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
-	--       "src": "https://github.com/neovim/nvim-lspconfig",
-	--       "version": "'92ee7d42320edfbb81f3cad851314ab197fa324a'"
-	--     },
-	--     "oil.nvim": {
-	--       "rev": "6b59a6cf623fa2245c7454ddb458df5bdb6615d3",
-	--       "src": "https://github.com/stevearc/oil.nvim",
-	--       "version": "'6b59a6cf623fa2245c7454ddb458df5bdb6615d3'"
-	--     },
-	--     "plenary.nvim": {
-	--       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
-	--       "src": "https://github.com/nvim-lua/plenary.nvim",
-	--       "version": "'b9fd5226c2f76c951fc8ed5923d85e4de065e509'"
-	--     },
-	--     "tokyonight.nvim": {
-	--       "rev": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd",
-	--       "src": "https://github.com/folke/tokyonight.nvim"
-	--     },
-	--     "which-key.nvim": {
-	--       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
-	--       "src": "https://github.com/folke/which-key.nvim",
-	--       "version": "'3aab2147e74890957785941f0c1ad87d0a44c15a'"
-	--     }
-	--   }
-	-- }%
+  -- Dependencies
+  { src = 'https://github.com/nvim-lua/plenary.nvim' },
+  { src = 'https://github.com/ThePrimeagen/harpoon' },
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '*' },
 }
 require('luasnip.loaders.from_vscode').lazy_load()
 require('blink.cmp').setup()
@@ -136,13 +46,13 @@ require('blink.cmp').setup()
 require('nvim-autopairs').setup()
 
 require('mason').setup()
-
+--
 require('tokyonight').setup()
 vim.cmd 'colorscheme tokyonight-night'
--- vim.cmd ':hi statusline guibg=NONE'
+vim.cmd ':hi statusline guibg=NONE'
 
 require('oil').setup {
-	default_file_explorer = true,
+  default_file_explorer = true,
 }
 
 --
@@ -153,30 +63,30 @@ local harpoon = require 'harpoon'
 harpoon:setup()
 
 vim.keymap.set('n', '<leader>a', function()
-	harpoon:list():add()
+  harpoon:list():add()
 end, { desc = 'Harpoon file' })
 vim.keymap.set('n', '<C-e>', function()
-	harpoon.ui:toggle_quick_menu(harpoon:list())
+  harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = 'Harpoon quick menu' })
 vim.keymap.set('n', 'mf', function()
-	harpoon:list():select(1)
+  harpoon:list():select(1)
 end, { desc = 'Jump to file 1' })
 vim.keymap.set('n', 'md', function()
-	harpoon:list():select(2)
+  harpoon:list():select(2)
 end, { desc = 'Jump to file 2' })
 vim.keymap.set('n', 'ms', function()
-	harpoon:list():select(3)
+  harpoon:list():select(3)
 end, { desc = 'Jump to file 3' })
 vim.keymap.set('n', 'ma', function()
-	harpoon:list():select(4)
+  harpoon:list():select(4)
 end, { desc = 'Jump to file 4' })
 
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set('n', '<C-S-P>', function()
-	harpoon:list():prev()
+  harpoon:list():prev()
 end, { desc = 'Go to next file' })
 vim.keymap.set('n', '<C-S-N>', function()
-	harpoon:list():next()
+  harpoon:list():next()
 end, { desc = 'Go to previous buffer' })
 
 --
@@ -188,12 +98,12 @@ fzf.setup { 'telescope' }
 
 set('n', '<leader>sh', fzf.help_tags, { desc = '[S]earch [H]elp' })
 set('n', '<leader>st', function()
-	require('fzf-lua').grep {
-		prompt = 'HELP> ',
-		search = '',
-		cwd = vim.env.VIMRUNTIME .. '/doc',
-		rg_opts = '--column --line-number --no-heading --color=always --smart-case',
-	}
+  require('fzf-lua').grep {
+    prompt = 'HELP> ',
+    search = '',
+    cwd = vim.env.VIMRUNTIME .. '/doc',
+    rg_opts = '--column --line-number --no-heading --color=always --smart-case',
+  }
 end, { desc = '[S]earch [T]ext of [H]elp' })
 set('n', '<leader>sk', fzf.keymaps, { desc = '[S]earch [K]eymaps' })
 set('n', '<leader>sf', fzf.files, { desc = '[S]earch [F]iles' })
@@ -206,11 +116,11 @@ set('n', '<leader>sr', fzf.resume, { desc = '[S]earch [R]esume' })
 set('n', '<leader>s.', fzf.oldfiles, { desc = '[S]earch Recent Files' })
 set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
 set('n', '<leader>sn', function()
-	fzf.files {
-		cwd = vim.fn.stdpath 'config',
-		prompt = 'Neovim Config Files>',
-		no_ignore = true,
-	}
+  fzf.files {
+    cwd = vim.fn.stdpath 'config',
+    prompt = 'Neovim Config Files>',
+    no_ignore = true,
+  }
 end, { desc = '[S]earch [N]eovim files' })
 
 --
@@ -218,162 +128,146 @@ end, { desc = '[S]earch [N]eovim files' })
 --
 
 local lsp_info = {
-	{
-		masondeps = { 'stylua', 'lua-language-server' },
-		lsp_configuration = { ['lua_ls'] = { filetypes = { 'lua' } } },
-		linters = {},
-		formatters = { lua = { 'stylua', lsp_format = 'fallback' } },
-	},
-	{
-		masondeps = { 'bash-language-server', 'shellcheck' },
-		lsp_configuration = { ['bashls'] = { filetypes = { 'sh' } } },
-		linters = { sh = { 'shellcheck' } },
-	},
-	{
-		masondeps = { 'ruff' },
-		lsp_configuration = {
-			['pylsp'] = {
-				filetypes = { 'python' },
-				plugins = {
-					pyflakes = { enabled = false },
-					pycodestyle = { enabled = false },
-					autopep8 = { enabled = false },
-					yapf = { enabled = false },
-					mccabe = { enabled = false },
-					pylsp_mypy = { enabled = false },
-					pylsp_black = { enabled = false },
-					pylsp_isort = { enabled = false },
-				},
-			},
-		},
-		linters = { python = { 'ruff' } },
-		formatters = { python = { 'isort', 'black' } },
-	},
+  {
+    masondeps = { 'clangd', 'clang-format', 'cpplint' },
+    lsp_configuration = { ['clangd'] = { filetypes = { 'c', 'cpp' } } },
+    linters = { cpp = { 'cpplint' } },
+    formatters = { c = { 'clang-format' }, cpp = { 'clang-format' } },
+  },
+  {
+    masondeps = { 'stylua', 'lua-language-server' },
+    lsp_configuration = { ['lua_ls'] = { filetypes = { 'lua' } } },
+    linters = {},
+    formatters = { lua = { 'stylua' } },
+  },
+  {
+    masondeps = { 'bash-language-server', 'shellcheck' },
+    lsp_configuration = { ['bashls'] = { filetypes = { 'sh' } } },
+    linters = { sh = { 'shellcheck' } },
+  },
+  {
+    masondeps = { 'ruff' },
+    lsp_configuration = {
+      ['pylsp'] = {
+        filetypes = { 'python' },
+        plugins = {
+          pyflakes = { enabled = false },
+          pycodestyle = { enabled = false },
+          autopep8 = { enabled = false },
+          yapf = { enabled = false },
+          mccabe = { enabled = false },
+          pylsp_mypy = { enabled = false },
+          pylsp_black = { enabled = false },
+          pylsp_isort = { enabled = false },
+        },
+      },
+    },
+    linters = { python = { 'ruff' } },
+    formatters = { python = { 'isort', 'black' } },
+  },
 }
 
 -- Merge all mason deps and install them
 local ensure_installed = {}
 for _, lang_config in pairs(lsp_info) do
-	for _, masonitem in pairs(lang_config.masondeps) do
-		table.insert(ensure_installed, masonitem)
-	end
+  for _, masonitem in pairs(lang_config.masondeps) do
+    table.insert(ensure_installed, masonitem)
+  end
 end
 
-require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+-- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 -- Configure LSP
 for _, entry in pairs(lsp_info) do
-	for server, config in pairs(entry.lsp_configuration) do
-		vim.lsp.config(server, config)
-		vim.lsp.enable { server }
-	end
+  for server, config in pairs(entry.lsp_configuration) do
+    vim.lsp.config(server, config)
+    vim.lsp.enable { server }
+  end
 end
 
 local linter_config = {}
 for _, entry in pairs(lsp_info) do
-	for tool, linters in pairs(entry.linters or {}) do
-		linter_config[tool] = linters
-	end
+  for tool, linters in pairs(entry.linters or {}) do
+    linter_config[tool] = linters
+  end
 end
 
 -- Configure linters
 require('lint').linters_by_ft = linter_config
 
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-	callback = function()
-		require('lint').try_lint()
-	end,
+  callback = function()
+    require('lint').try_lint()
+  end,
 })
 
 -- Configure formatters
 local formatters_by_ft = {}
 for _, entry in pairs(lsp_info) do
-	table.insert(formatters_by_ft, entry.formatters)
+  for ft, formatter_by_ft in pairs(entry.formatters or {}) do
+    formatters_by_ft[ft] = formatter_by_ft
+  end
 end
-set({ 'n', 'v' }, '<leader>f', function()
-	require('conform').format({ lsp_format = 'fallback', async = true, timeout_ms = 2000 },
-		function(err, did_edit) end)
+require('conform').setup {
+  formatters_by_ft = formatters_by_ft,
+  log_level = vim.log.levels.DEBUG,
+  format_on_save = { lsp_format = 'fallback', timeout_ms = 10000 },
+}
+set({ 'n' }, '<leader>f', function()
+  require('conform').format({ notify_no_formatters = true, lsp_format = 'fallback', timeout_ms = 20000 }, { desc = 'Format current buffer' })
 end)
--- require('conform').setup {
---   formatters_by_ft = {
---     lua = { 'stylua', lsp_format = 'fallback' },
---     -- Conform will run multiple formatters sequentially
---     python = { 'isort', 'black' },
---   },
--- }
--- require('lint').linters_by_ft = {
---   sh = { 'shellcheck' },
---   python = { 'ruff' },
--- }
--- local lsp_config = {
---   ['clangd'] = { filetypes = { 'cpp', 'c' } },
---   ['bashls'] = { filetypes = { 'sh' } },
---   ['pylsp'] = {
---     filetypes = { 'python' },
---     plugins = {
---       pyflakes = { enabled = false },
---       pycodestyle = { enabled = false },
---       autopep8 = { enabled = false },
---       yapf = { enabled = false },
---       mccabe = { enabled = false },
---       pylsp_mypy = { enabled = false },
---       pylsp_black = { enabled = false },
---       pylsp_isort = { enabled = false },
---     },
---   },
---   ['lua_ls'] = { filetypes = { 'lua' } },
--- }
+--
 
 vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('kickstart-lsp-fzf', { clear = true }),
-	callback = function(event)
-		-- Define a helper function for keybindings with descriptions
-		local map = function(keys, func, desc, mode)
-			mode = mode or 'n'
-			vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-		end
+  group = vim.api.nvim_create_augroup('kickstart-lsp-fzf', { clear = true }),
+  callback = function(event)
+    -- Define a helper function for keybindings with descriptions
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+    end
 
-		-- Rename the symbol under the cursor
-		map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+    -- Rename the symbol under the cursor
+    map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-		-- Trigger a code action
-		map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+    -- Trigger a code action
+    map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
-		-- Find references to the symbol under the cursor
-		map('grr', fzf.lsp_references, '[G]oto [R]eferences')
+    -- Find references to the symbol under the cursor
+    map('grr', fzf.lsp_references, '[G]oto [R]eferences')
 
-		-- Jump to the implementation of the symbol
-		map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
+    -- Jump to the implementation of the symbol
+    map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
 
-		-- Jump to the definition of the symbol
-		map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
+    -- Jump to the definition of the symbol
+    map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
 
-		-- Jump to the declaration (e.g., header files in C)
-		map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    -- Jump to the declaration (e.g., header files in C)
+    map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-		-- List document symbols in the current buffer
-		map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
+    -- List document symbols in the current buffer
+    map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
 
-		-- List symbols across the entire workspace
-		map('gW', fzf.lsp_workspace_symbols, 'Open Workspace Symbols')
+    -- List symbols across the entire workspace
+    map('gW', fzf.lsp_workspace_symbols, 'Open Workspace Symbols')
 
-		-- Jump to the type definition of the symbol
-		map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
-	end,
+    -- Jump to the type definition of the symbol
+    map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
+  end,
 })
 
 vim.opt.updatetime = 250 -- faster CursorHold
 
 vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-	group = vim.api.nvim_create_augroup('diag-float', { clear = true }),
-	callback = function()
-		vim.diagnostic.open_float(nil, {
-			focus = false,
-			scope = 'cursor', -- "line" also ok
-			border = 'rounded',
-			source = 'if_many',
-		})
-	end,
+  group = vim.api.nvim_create_augroup('diag-float', { clear = true }),
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focus = false,
+      scope = 'cursor', -- "line" also ok
+      border = 'rounded',
+      source = 'if_many',
+    })
+  end,
 })
 
 -- QOL
@@ -389,25 +283,26 @@ set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
 })
 
 -- open quickfix
 set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 set('n', 'dd', function()
-	local line = vim.api.nvim_get_current_line()
-	if line:match '^%s*$' then
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('"_dd', true, false, true), 'n', false)
-	else
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('dd', true, false, true), 'n', false)
-	end
+  local line = vim.api.nvim_get_current_line()
+  if line:match '^%s*$' then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('"_dd', true, false, true), 'n', false)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('dd', true, false, true), 'n', false)
+  end
 end, { noremap = true, silent = true })
 
+set('n', 'p', 'P', { desc = 'Paste without yanking' })
 --
 -- multicursor
 --
@@ -416,30 +311,30 @@ mc.setup()
 
 -- Add or skip cursor above/below the main cursor.
 set({ 'n', 'x' }, '<up>', function()
-	mc.lineAddCursor(-1)
+  mc.lineAddCursor(-1)
 end)
 set({ 'n', 'x' }, '<down>', function()
-	mc.lineAddCursor(1)
+  mc.lineAddCursor(1)
 end)
 set({ 'n', 'x' }, '<leader><up>', function()
-	mc.lineSkipCursor(-1)
+  mc.lineSkipCursor(-1)
 end)
 set({ 'n', 'x' }, '<leader><down>', function()
-	mc.lineSkipCursor(1)
+  mc.lineSkipCursor(1)
 end)
 
 -- Add or skip adding a new cursor by matching word/selection
 set({ 'n', 'x' }, '<leader>n', function()
-	mc.matchAddCursor(1)
+  mc.matchAddCursor(1)
 end, { desc = 'Open diagnostic [Q]uickfix list' })
 set({ 'n', 'x' }, '<leader>s', function()
-	mc.matchSkipCursor(1)
+  mc.matchSkipCursor(1)
 end)
 set({ 'n', 'x' }, '<leader>N', function()
-	mc.matchAddCursor(-1)
+  mc.matchAddCursor(-1)
 end)
 set({ 'n', 'x' }, '<leader>S', function()
-	mc.matchSkipCursor(-1)
+  mc.matchSkipCursor(-1)
 end)
 
 -- Add and remove cursors with control + left click.
@@ -459,21 +354,21 @@ set('n', '<leader>/A', mc.searchAllAddCursors)
 -- Mappings defined in a keymap layer only apply when there are
 -- multiple cursors. This lets you have overlapping mappings.
 mc.addKeymapLayer(function(layerSet)
-	-- Select a different cursor as the main one.
-	layerSet({ 'n', 'x' }, '<left>', mc.prevCursor)
-	layerSet({ 'n', 'x' }, '<right>', mc.nextCursor)
+  -- Select a different cursor as the main one.
+  layerSet({ 'n', 'x' }, '<left>', mc.prevCursor)
+  layerSet({ 'n', 'x' }, '<right>', mc.nextCursor)
 
-	-- Delete the main cursor.
-	layerSet({ 'n', 'x' }, '<leader>x', mc.deleteCursor)
+  -- Delete the main cursor.
+  layerSet({ 'n', 'x' }, '<leader>x', mc.deleteCursor)
 
-	-- Enable and clear cursors using escape.
-	layerSet('n', '<esc>', function()
-		if not mc.cursorsEnabled() then
-			mc.enableCursors()
-		else
-			mc.clearCursors()
-		end
-	end)
+  -- Enable and clear cursors using escape.
+  layerSet('n', '<esc>', function()
+    if not mc.cursorsEnabled() then
+      mc.enableCursors()
+    else
+      mc.clearCursors()
+    end
+  end)
 end)
 
 -- Customize how cursors look.
@@ -487,79 +382,81 @@ hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
 hl(0, 'MultiCursorDisabledSign', { link = 'SignColumn' })
 
 -- Neogit config
-local neogit = require('neogit')
-set("n", "<leader>gg", neogit.open, { desc = "Open neogit UI" })
+local neogit = require 'neogit'
+set('n', '<leader>gg', neogit.open, { desc = 'Open neogit UI' })
 
-neogit.setup({
-	integrations = {
-		diffview = true,
-		fzf_lua = true
-	}
-})
+neogit.setup {
+  integrations = {
+    diffview = true,
+    fzf_lua = true,
+  },
+}
 
 -- Gitsigns
 require('gitsigns').setup {
-	on_attach = function(bufnr)
-		local gitsigns = require('gitsigns')
+  on_attach = function(bufnr)
+    local gitsigns = require 'gitsigns'
 
-		local function map(mode, l, r, opts)
-			opts = opts or {}
-			opts.buffer = bufnr
-			vim.keymap.set(mode, l, r, opts)
-		end
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
 
-		-- Navigation
-		map('n', ']c', function()
-			if vim.wo.diff then
-				vim.cmd.normal({ ']c', bang = true })
-			else
-				gitsigns.nav_hunk('next')
-			end
-		end)
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then
+        vim.cmd.normal { ']c', bang = true }
+      else
+        gitsigns.nav_hunk 'next'
+      end
+    end)
 
-		map('n', '[c', function()
-			if vim.wo.diff then
-				vim.cmd.normal({ '[c', bang = true })
-			else
-				gitsigns.nav_hunk('prev')
-			end
-		end)
+    map('n', '[c', function()
+      if vim.wo.diff then
+        vim.cmd.normal { '[c', bang = true }
+      else
+        gitsigns.nav_hunk 'prev'
+      end
+    end)
 
-		-- Actions
-		map('n', '<leader>gs', gitsigns.stage_hunk, { desc = "Stage Hunk" })
-		map('n', '<leader>gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
+    -- Actions
+    map('n', '<leader>gs', gitsigns.stage_hunk, { desc = 'Stage Hunk' })
+    map('n', '<leader>gr', gitsigns.reset_hunk, { desc = 'Reset Hunk' })
 
-		map('v', '<leader>gs', function()
-			gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-		end, { desc = "Stage Hunk" })
+    map('v', '<leader>gs', function()
+      gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end, { desc = 'Stage Hunk' })
 
-		map('v', '<leader>gr', function()
-			gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-		end, { desc = "Reset Hunk" })
+    map('v', '<leader>gr', function()
+      gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end, { desc = 'Reset Hunk' })
 
-		map('n', '<leader>gS', gitsigns.stage_buffer, { desc = "Stage Buffer" })
-		map('n', '<leader>gR', gitsigns.reset_buffer, { desc = "Reset Buffer" })
-		map('n', '<leader>gp', gitsigns.preview_hunk, { desc = "Preview Hunk" })
-		map('n', '<leader>gi', gitsigns.preview_hunk_inline, { desc = "Preview Hunk Inline" })
+    map('n', '<leader>gS', gitsigns.stage_buffer, { desc = 'Stage Buffer' })
+    map('n', '<leader>gR', gitsigns.reset_buffer, { desc = 'Reset Buffer' })
+    map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'Preview Hunk' })
+    map('n', '<leader>gi', gitsigns.preview_hunk_inline, { desc = 'Preview Hunk Inline' })
 
-		map('n', '<leader>gb', function()
-			gitsigns.blame_line({ full = true })
-		end, { desc = "Blame Line" })
+    map('n', '<leader>gb', function()
+      gitsigns.blame_line { full = true }
+    end, { desc = 'Blame Line' })
 
-		map('n', '<leader>gd', gitsigns.diffthis, { desc = "Diff This" })
+    map('n', '<leader>gd', gitsigns.diffthis, { desc = 'Diff This' })
 
-		map('n', '<leader>gD', function()
-			gitsigns.diffthis('~')
-		end, { desc = "Diff This" })
+    map('n', '<leader>gD', function()
+      gitsigns.diffthis '~'
+    end, { desc = 'Diff This' })
 
-		map('n', '<leader>gQ', function() gitsigns.setqflist('all') end, { desc = "Set QuickFix List" })
-		map('n', '<leader>gq', gitsigns.setqflist)
+    map('n', '<leader>gQ', function()
+      gitsigns.setqflist 'all'
+    end, { desc = 'Set QuickFix List' })
+    map('n', '<leader>gq', gitsigns.setqflist)
 
-		-- Toggles
-		map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
-		map('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = "Toggle Word Diff" })
+    -- Toggles
+    map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = 'Toggle Current Line Blame' })
+    map('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = 'Toggle Word Diff' })
 
-		-- Text object
-		map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = "Select Hunk" })
-	end
+    -- Text object
+    map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'Select Hunk' })
+  end,
 }
