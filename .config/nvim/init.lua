@@ -37,7 +37,6 @@ vim.pack.add {
 
   -- Dependencies
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
-  { src = 'https://github.com/ThePrimeagen/harpoon' },
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '*' },
 }
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -54,40 +53,6 @@ vim.cmd ':hi statusline guibg=NONE'
 require('oil').setup {
   default_file_explorer = true,
 }
-
---
--- Harpoon
---
-local harpoon = require 'harpoon'
-
-harpoon:setup()
-
-vim.keymap.set('n', '<leader>a', function()
-  harpoon:list():add()
-end, { desc = 'Harpoon file' })
-vim.keymap.set('n', '<C-e>', function()
-  harpoon.ui:toggle_quick_menu(harpoon:list())
-end, { desc = 'Harpoon quick menu' })
-vim.keymap.set('n', 'mf', function()
-  harpoon:list():select(1)
-end, { desc = 'Jump to file 1' })
-vim.keymap.set('n', 'md', function()
-  harpoon:list():select(2)
-end, { desc = 'Jump to file 2' })
-vim.keymap.set('n', 'ms', function()
-  harpoon:list():select(3)
-end, { desc = 'Jump to file 3' })
-vim.keymap.set('n', 'ma', function()
-  harpoon:list():select(4)
-end, { desc = 'Jump to file 4' })
-
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set('n', '<C-S-P>', function()
-  harpoon:list():prev()
-end, { desc = 'Go to next file' })
-vim.keymap.set('n', '<C-S-N>', function()
-  harpoon:list():next()
-end, { desc = 'Go to previous buffer' })
 
 --
 -- fzf lua
@@ -132,18 +97,20 @@ local lsp_info = {
     masondeps = { 'clangd', 'clang-format', 'cpplint' },
     lsp_configuration = { ['clangd'] = { filetypes = { 'c', 'cpp' } } },
     linters = { cpp = { 'cpplint' } },
-    formatters = { c = { 'clang-format' }, cpp = { 'clang-format' } },
+    formatters_ft = { c = { 'clang-format' }, cpp = { 'clang_format' } },
+    formatters = { clang_format = { prepend_args = { '--style=file', '--fallback-style=Chromium' } } },
   },
   {
     masondeps = { 'stylua', 'lua-language-server' },
     lsp_configuration = { ['lua_ls'] = { filetypes = { 'lua' } } },
     linters = {},
-    formatters = { lua = { 'stylua' } },
+    formatters_ft = { lua = { 'stylua' } },
   },
   {
-    masondeps = { 'bash-language-server', 'shellcheck' },
+    masondeps = { 'bash-language-server', 'shellcheck', 'shfmt' },
     lsp_configuration = { ['bashls'] = { filetypes = { 'sh' } } },
     linters = { sh = { 'shellcheck' } },
+    formatters_ft = { sh = { 'shfmt' } },
   },
   {
     masondeps = { 'ruff' },
@@ -163,7 +130,7 @@ local lsp_info = {
       },
     },
     linters = { python = { 'ruff' } },
-    formatters = { python = { 'isort', 'black' } },
+    formatters_ft = { python = { 'isort', 'black' } },
   },
 }
 
@@ -175,7 +142,7 @@ for _, lang_config in pairs(lsp_info) do
   end
 end
 
--- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 -- Configure LSP
 for _, entry in pairs(lsp_info) do
@@ -204,12 +171,21 @@ vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
 -- Configure formatters
 local formatters_by_ft = {}
 for _, entry in pairs(lsp_info) do
-  for ft, formatter_by_ft in pairs(entry.formatters or {}) do
+  for ft, formatter_by_ft in pairs(entry.formatters_ft or {}) do
     formatters_by_ft[ft] = formatter_by_ft
   end
 end
+
+local formatters = {}
+for _, entry in pairs(lsp_info) do
+  for key, format_config in pairs(entry.formatters or {}) do
+    formatters[key] = format_config
+  end
+end
+
 require('conform').setup {
   formatters_by_ft = formatters_by_ft,
+  formatters = formatters,
   log_level = vim.log.levels.DEBUG,
   format_on_save = { lsp_format = 'fallback', timeout_ms = 10000 },
 }
@@ -274,6 +250,9 @@ vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
 set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+set('n', '<C-w>v', '<C-w>v<C-w><C-l>', { desc = 'Split vertical and jump to window' })
+set('n', '<C-w>s', '<C-w>s<C-w><C-j>', { desc = 'Split horizontal and jump to window' })
+set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 set('n', '<C-u>', '<C-u>zz', { desc = 'Centered jump up' })
 set('n', '<C-d>', '<C-d>zz', { desc = 'Centered jump down' })
@@ -460,3 +439,48 @@ require('gitsigns').setup {
     map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'Select Hunk' })
   end,
 }
+
+-- Toggleable term
+local term_buf = nil
+local term_win = nil
+
+function ToggleTerminal()
+  -- If terminal window is open, hide it
+  if term_win and vim.api.nvim_win_is_valid(term_win) then
+    vim.api.nvim_win_hide(term_win)
+    term_win = nil
+    return
+  end
+
+  -- Create buffer if needed
+  if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
+    term_buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_option(term_buf, 'bufhidden', 'hide')
+  end
+
+  -- Open split at bottom
+  vim.cmd 'botright split'
+  vim.cmd 'resize 15'
+
+  term_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(term_win, term_buf)
+
+  -- Start terminal if not already
+  if vim.bo[term_buf].buftype ~= 'terminal' then
+    vim.fn.termopen(vim.o.shell)
+  end
+
+  vim.cmd 'startinsert'
+end
+
+set('n', '<C-t>', function()
+  ToggleTerminal()
+end)
+
+-- default marks to global
+set('n', 'ma', 'mA')
+set('n', "'a", "'A")
+set('n', 'ms', 'mS')
+set('n', "'s", "'S")
+set('n', 'md', 'mD')
+set('n', "'d", "'D")
