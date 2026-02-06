@@ -27,10 +27,11 @@ vim.pack.add {
 	{ src = 'https://github.com/windwp/nvim-autopairs' },
 	{ src = 'https://github.com/L3MON4D3/LuaSnip' },
 	{ src = 'https://github.com/rafamadriz/friendly-snippets' },
+	{ src = 'https://github.com/nvim-orgmode/orgmode' },
+	{ src = 'https://github.com/NeoGitOrg/neogit' },
 
 	-- Dependencies
 	{ src = 'https://github.com/nvim-lua/plenary.nvim' },
-	{ src = 'https://github.com/ThePrimeagen/harpoon',                     version = 'harpoon2' },
 	{ src = 'https://github.com/saghen/blink.cmp',                         version = vim.version.range '*' },
 }
 require('luasnip.loaders.from_vscode').lazy_load()
@@ -40,6 +41,28 @@ require('nvim-autopairs').setup()
 
 require('mason').setup()
 
+local neogit = require('neogit')
+set("n", "<leader>gg", neogit.open, { desc = "Open Neogit UI" })
+
+require('orgmode').setup({
+	org_agenda_files = '~/orgfiles/**/*',
+	org_default_notes_file = '~/orgfiles/refile.org',
+	org_capture_templates = {
+		t = {
+			description = 'Task',
+			template = '* TODO %?\n  %u',
+			target = '~/orgfiles/todo.org'
+		},
+		n = {
+			description = 'Notes',
+			template = '* %?',
+			target = '~/orgfiles/notes.org'
+		}
+	}
+})
+
+vim.lsp.enable('org')
+
 require('tokyonight').setup()
 vim.cmd 'colorscheme tokyonight-night'
 -- vim.cmd ':hi statusline guibg=NONE'
@@ -47,40 +70,6 @@ vim.cmd 'colorscheme tokyonight-night'
 require('oil').setup {
 	default_file_explorer = true,
 }
-
---
--- Harpoon
---
-local harpoon = require 'harpoon'
-
-harpoon:setup()
-
-vim.keymap.set('n', '<leader>a', function()
-	harpoon:list():add()
-end, { desc = 'Harpoon file' })
-vim.keymap.set('n', '<C-e>', function()
-	harpoon.ui:toggle_quick_menu(harpoon:list())
-end, { desc = 'Harpoon quick menu' })
-vim.keymap.set('n', 'mf', function()
-	harpoon:list():select(1)
-end, { desc = 'Jump to file 1' })
-vim.keymap.set('n', 'md', function()
-	harpoon:list():select(2)
-end, { desc = 'Jump to file 2' })
-vim.keymap.set('n', 'ms', function()
-	harpoon:list():select(3)
-end, { desc = 'Jump to file 3' })
-vim.keymap.set('n', 'ma', function()
-	harpoon:list():select(4)
-end, { desc = 'Jump to file 4' })
-
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set('n', '<C-S-P>', function()
-	harpoon:list():prev()
-end, { desc = 'Go to next file' })
-vim.keymap.set('n', '<C-S-N>', function()
-	harpoon:list():next()
-end, { desc = 'Go to previous buffer' })
 
 --
 -- fzf lua
@@ -115,12 +104,39 @@ set('n', '<leader>sn', function()
 		no_ignore = true,
 	}
 end, { desc = '[S]earch [N]eovim files' })
-
+-- 
+-- Org Mode
+--
+set('n', '<leader>sog', function()
+  fzf.grep {
+    cwd = vim.fn.expand('~') .. '/orgfiles',
+	search = '',
+    filespec = 'notes.org',
+    prompt = 'Notes> ',
+    rg_opts = "--with-filename --column --line-number --no-heading --color=never",
+  }
+end, { desc = '[S]earch [N]otes (notes.org)' })
+set('n', '<leader>soh', function()
+  fzf.grep {
+    cwd = vim.fn.expand('~') .. '/orgfiles',
+    filespec = 'notes.org',
+	search = '',
+    prompt = 'Notes Headings> ',
+    rg_opts = "--with-filename --column --line-number --no-heading --color=never '^\\*+ '",
+  }
+end, { desc = '[S]earch [H]eadings in notes.org' })
 --
 -- lsp, linting, mason, and conform formatting
 --
+--
 
 local lsp_info = {
+	{
+		masondeps = { 'clang-format' },
+		lsp_configuration = { ['clangd'] = { filetypes = { 'c', 'cpp' } } },
+		linters = {},
+		formatters = { clang = { 'clang-format', lsp_format = 'fallback' } },
+	},
 	{
 		masondeps = { 'stylua', 'lua-language-server' },
 		lsp_configuration = { ['lua_ls'] = { filetypes = { 'lua' } } },
@@ -128,9 +144,10 @@ local lsp_info = {
 		formatters = { lua = { 'stylua', lsp_format = 'fallback' } },
 	},
 	{
-		masondeps = { 'bash-language-server', 'shellcheck' },
+		masondeps = { 'bash-language-server', 'shellcheck', 'shfmt' },
 		lsp_configuration = { ['bashls'] = { filetypes = { 'sh' } } },
 		linters = { sh = { 'shellcheck' } },
+		formatters = { sh = { 'shfmt' } }
 	},
 	{
 		masondeps = { 'ruff' },
